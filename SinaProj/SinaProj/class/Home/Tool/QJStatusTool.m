@@ -8,14 +8,19 @@
 
 #import "QJStatusTool.h"
 #import "QJHttpTool.h"
+#import "QJHomeStatusesResult.h"
+#import "QJHomeStatusParam.h"
+#import "MJExtension.h"
 
 @implementation QJStatusTool
 
-+ (void)homeStatusWithParams:(NSDictionary *)params success:(void (^)(id response))success failure:(void (^)(NSError *error))failure
++ (void)homeStatusWithParam:(QJHomeStatusParam *)param success:(void (^)(QJHomeStatusesResult *))success failure:(void (^)(NSError *))failure
 {
-    [QJHttpTool getWithURL:QJAPPGet_Status_Url params:params success:^(id responseJson) {
+    
+    [QJHttpTool getWithURL:QJAPPGet_Status_Url params:param.keyValues success:^(id responseJson) {
         if (success) {
-            success(responseJson);
+            QJHomeStatusesResult *result = [QJHomeStatusesResult objectWithKeyValues:responseJson];
+            success(result);
         }
     } failure:^(NSError *error) {
         if (failure) {

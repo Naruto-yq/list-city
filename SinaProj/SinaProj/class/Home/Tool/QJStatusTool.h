@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+@class QJHomeStatusParam, QJHomeStatusesResult;
+
 @interface QJStatusTool : NSObject
 
-+ (void)homeStatusWithParams:(NSDictionary *)params success:(void (^)(id response))success failure:(void (^)(NSError *error))failure;
++ (void)homeStatusWithParam:(QJHomeStatusParam *)param success:(void (^)(QJHomeStatusesResult *result))success failure:(void (^)(NSError *error))failure;
 
 @end

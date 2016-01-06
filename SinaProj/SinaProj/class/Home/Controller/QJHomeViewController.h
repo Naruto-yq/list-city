@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface QJHomeViewController : UITableViewController
-
+- (void)refresh;
 @end

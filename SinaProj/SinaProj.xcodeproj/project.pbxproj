@@ -121,6 +121,9 @@
 		CCD43A6B1C2F967E0028D18E /* QJTitleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CCD43A6A1C2F967E0028D18E /* QJTitleButton.m */; };
 		CCD805231C3AAE6A00F65702 /* QJHttpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = CCD805221C3AAE6A00F65702 /* QJHttpTool.m */; };
 		CCD8052A1C3ACD5000F65702 /* QJStatusTool.m in Sources */ = {isa = PBXBuildFile; fileRef = CCD805291C3ACD5000F65702 /* QJStatusTool.m */; };
+		CCD8052D1C3AD9C000F65702 /* QJHomeStatusParam.m in Sources */ = {isa = PBXBuildFile; fileRef = CCD8052C1C3AD9C000F65702 /* QJHomeStatusParam.m */; };
+		CCD805301C3AE10D00F65702 /* QJHomeStatusesResult.m in Sources */ = {isa = PBXBuildFile; fileRef = CCD8052F1C3AE10D00F65702 /* QJHomeStatusesResult.m */; };
+		CCD805331C3AE9B100F65702 /* QJUserUnreadCountResult.m in Sources */ = {isa = PBXBuildFile; fileRef = CCD805321C3AE9B100F65702 /* QJUserUnreadCountResult.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -351,6 +354,12 @@
 		CCD805221C3AAE6A00F65702 /* QJHttpTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QJHttpTool.m; sourceTree = "<group>"; };
 		CCD805281C3ACD5000F65702 /* QJStatusTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QJStatusTool.h; sourceTree = "<group>"; };
 		CCD805291C3ACD5000F65702 /* QJStatusTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QJStatusTool.m; sourceTree = "<group>"; };
+		CCD8052B1C3AD9C000F65702 /* QJHomeStatusParam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QJHomeStatusParam.h; sourceTree = "<group>"; };
+		CCD8052C1C3AD9C000F65702 /* QJHomeStatusParam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QJHomeStatusParam.m; sourceTree = "<group>"; };
+		CCD8052E1C3AE10D00F65702 /* QJHomeStatusesResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QJHomeStatusesResult.h; sourceTree = "<group>"; };
+		CCD8052F1C3AE10D00F65702 /* QJHomeStatusesResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QJHomeStatusesResult.m; sourceTree = "<group>"; };
+		CCD805311C3AE9B100F65702 /* QJUserUnreadCountResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QJUserUnreadCountResult.h; sourceTree = "<group>"; };
+		CCD805321C3AE9B100F65702 /* QJUserUnreadCountResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QJUserUnreadCountResult.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -454,6 +463,10 @@
 		CC4A17FD1C2C3EA300C2F60F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				CCD8052B1C3AD9C000F65702 /* QJHomeStatusParam.h */,
+				CCD8052C1C3AD9C000F65702 /* QJHomeStatusParam.m */,
+				CCD8052E1C3AE10D00F65702 /* QJHomeStatusesResult.h */,
+				CCD8052F1C3AE10D00F65702 /* QJHomeStatusesResult.m */,
 				CCC6D8A11C32BD4400123C12 /* QJStatus.h */,
 				CCC6D8A21C32BD4400123C12 /* QJStatus.m */,
 				CCC6D8A41C32BF0700123C12 /* QJUser.h */,
@@ -462,6 +475,8 @@
 				CCC6D8C81C32D53200123C12 /* QJStatusFrame.m */,
 				CC8AF5381C36359C000FF0A5 /* QJPhoto.h */,
 				CC8AF5391C36359C000FF0A5 /* QJPhoto.m */,
+				CCD805311C3AE9B100F65702 /* QJUserUnreadCountResult.h */,
+				CCD805321C3AE9B100F65702 /* QJUserUnreadCountResult.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1186,6 +1201,7 @@
 				CCC6D8991C32B64F00123C12 /* SDWebImageDownloaderOperation.m in Sources */,
 				CCC6D86E1C32AAE000123C12 /* MBProgressHUD+MJ.m in Sources */,
 				CCC6D8A61C32BF0700123C12 /* QJUser.m in Sources */,
+				CCD805331C3AE9B100F65702 /* QJUserUnreadCountResult.m in Sources */,
 				CCC6D8651C32AAE000123C12 /* AFHTTPRequestOperation.m in Sources */,
 				CC4A18121C2C3EA300C2F60F /* QJMeViewController.m in Sources */,
 				CCC6D89F1C32B64F00123C12 /* UIImage+WebP.m in Sources */,
@@ -1227,9 +1243,11 @@
 				CCC6D86A1C32AAE000123C12 /* AFURLConnectionOperation.m in Sources */,
 				CC8AF5431C36672E000FF0A5 /* QJPhotoView.m in Sources */,
 				CCC6D86B1C32AAE000123C12 /* AFURLRequestSerialization.m in Sources */,
+				CCD805301C3AE10D00F65702 /* QJHomeStatusesResult.m in Sources */,
 				CCC6D86D1C32AAE000123C12 /* AFURLSessionManager.m in Sources */,
 				CCC6D8931C32B64F00123C12 /* MKAnnotationView+WebCache.m in Sources */,
 				CCC6D8BB1C32C4AA00123C12 /* MJArgument.m in Sources */,
+				CCD8052D1C3AD9C000F65702 /* QJHomeStatusParam.m in Sources */,
 				CCD805231C3AAE6A00F65702 /* QJHttpTool.m in Sources */,
 				CCC6D86C1C32AAE000123C12 /* AFURLResponseSerialization.m in Sources */,
 				CCC6D8C21C32C4AA00123C12 /* NSObject+MJKeyValue.m in Sources */,

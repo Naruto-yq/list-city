@@ -25,4 +25,6 @@
 #define QJAPP_POST_Compose_Status @"https://api.weibo.com/2/statuses/update.json"
 
 #define QJAPP_POST_Compose_Picture_Status @"https://upload.api.weibo.com/2/statuses/upload.json"
+
+#define QJAPP_GET_Unread_count @"https://rm.api.weibo.com/2/remind/unread_count.json"
 #endif /* APIStringMacros_h */

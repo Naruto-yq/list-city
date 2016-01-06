@@ -13,12 +13,23 @@
 #import "QJMeViewController.h"
 #import "QJDiscoverViewController.h"
 #import "QJComposeViewController.h"
+#import "QJUser.h"
+#import "QJHttpTool.h"
+#import "QJUserUnreadCountResult.h"
 #import "UIImage+QJImage.h"
 #import "QJTabBar.h"
+#import "QJAccount.h"
+#import "MJExtension.h"
 
 @interface QJMainTabBarController ()<QJTabBarDelegate>
 
 @property(nonatomic, weak) QJTabBar *customTabBar;
+
+@property(nonatomic, strong)QJHomeViewController *homeVc;
+@property(nonatomic, strong)QJMessageViewController *MsgVc;
+@property(nonatomic, strong)QJDiscoverViewController *discoverVc;
+@property(nonatomic, strong)QJMeViewController *meVc;
+
 @end
 
 @implementation QJMainTabBarController
@@ -31,6 +42,31 @@
     
     [self SetupAllControllers];
     
+    [self MainTabbar_CheckUnreadCount];
+    [NSTimer scheduledTimerWithTimeInterval:10.0f target:self selector:@selector(MainTabbar_CheckUnreadCount) userInfo:nil repeats:YES];
+    
+}
+
+
+- (void)MainTabbar_CheckUnreadCount
+{
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    QJAccount *account = unArchiveAccount();
+    params[@"access_token"] = account.access_token;
+    params[@"uid"] = @(account.uid);
+
+    [QJHttpTool getWithURL:QJAPP_GET_Unread_count params:params success:^(id response) {
+        QJUserUnreadCountResult *unreadResult = [QJUserUnreadCountResult objectWithKeyValues:response];
+        ALog(@"%d", unreadResult.status);
+        self.homeVc.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", unreadResult.status];
+        
+        self.MsgVc.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", unreadResult.cmt+unreadResult.dm+unreadResult.mention_cmt+unreadResult.mention_status];
+        
+        self.meVc.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", unreadResult.follower];
+    } failure:^(NSError *error) {
+        ALog(@"%@", error);
+    }];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -60,12 +96,16 @@
     
     QJHomeViewController *homeVc = [[QJHomeViewController alloc]init];
     //homeVc.tabBarItem.badgeValue = @"10";
+    self.homeVc = homeVc;
     QJMessageViewController *MsgVc = [[QJMessageViewController alloc]init];
     //MsgVc.tabBarItem.badgeValue = @"19";
+    self.MsgVc = MsgVc;
     QJDiscoverViewController *discoverVc = [[QJDiscoverViewController alloc]init];
+    self.discoverVc = discoverVc;
     //discoverVc.tabBarItem.badgeValue = @"19";
     QJMeViewController *meVc = [[QJMeViewController alloc]init];
     //meVc.tabBarItem.badgeValue = @"90";
+    self.meVc = meVc;
     NSArray *viewControllers = @[homeVc, MsgVc, discoverVc, meVc];
     for (int nIndex = 0; nIndex < viewControllers.count; nIndex++) {
         [self setupChildViewController:viewControllers[nIndex] title:titlesString[nIndex] imageName:imageString[nIndex] selectedImageName:seletedImageString[nIndex]];
@@ -93,6 +133,10 @@
 - (void)tabBar:(QJTabBar *)tabBar didSelectedButtonFrom:(long)FromBtnTag to:(long)toBtnTag
 {
     self.selectedIndex = toBtnTag;
+    
+    if (toBtnTag == 0) {
+        [self.homeVc refresh];
+    }
 }
 
 - (void)tabBarDidClickedPlusButton:(QJTabBar *)tabBar

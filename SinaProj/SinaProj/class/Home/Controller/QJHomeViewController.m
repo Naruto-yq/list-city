@@ -15,6 +15,8 @@
 #import "QJStatusFrame.h"
 #import "QJStatusCell.h"
 #import "QJStatusTool.h"
+#import "QJHomeStatusParam.h"
+#import "QJHomeStatusesResult.h"
 #import "MJRefresh.h"
 #import "MJExtension.h"
 #import "UIImageView+WebCache.h"
@@ -50,6 +52,13 @@
     [self.refreshHeadView free];
 }
 
+- (void)refresh
+{
+    //if ([self.tabBarItem.badgeValue intValue] > 0) {
+        [self.refreshHeadView beginRefreshing];
+    //}
+}
+
 - (NSMutableArray *)statusFrames
 {
     if(_statusFrames == nil){
@@ -64,7 +73,7 @@
     QJAccount *account = unArchiveAccount();
     params[@"access_token"] = account.access_token;
     params[@"uid"] = @(account.uid);
-    
+#warning 整个项目类似于此需日后改进，模仿微博的loadNewData&loadMoreData
     [QJHttpTool getWithURL:QJAPPGet_User_Url params:params success:^(id response) {
         QJUser *user = [QJUser objectWithKeyValues:(NSDictionary *)response];
         [self.titleBtn setTitle:user.name  forState:UIControlStateNormal];
@@ -94,19 +103,19 @@
 
 - (void)loadNewData
 {
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    self.tabBarItem.badgeValue = nil;
     QJAccount *account = unArchiveAccount();
-    params[@"access_token"] = account.access_token;
-    params[@"count"] = @10;
+    QJHomeStatusParam *param = [[QJHomeStatusParam alloc]init];
+    param.access_token = account.access_token;
+    param.count = @5;
     if(self.statusFrames.count){
-        QJStatusFrame *statusFrame = self.statusFrames[0];
-        params[@"since_id"] = statusFrame.status.idstr;
+        QJStatusFrame *statusFrame = [self.statusFrames firstObject];
+        param.since_id = @([statusFrame.status.idstr longLongValue]);
     }
-    
-    [QJHttpTool getWithURL:QJAPPGet_Status_Url params:params success:^(id response) {
+    [QJStatusTool homeStatusWithParam:param success:^(QJHomeStatusesResult *result) {
         NSMutableArray *statusFrameArray = [NSMutableArray array];
-        NSArray *statusesArray = [QJStatus objectArrayWithKeyValuesArray:response[@"statuses"]];
-        for(QJStatus *status in statusesArray){
+        //[QJStatus objectArrayWithKeyValuesArray:response[@"statuses"]];
+        for(QJStatus *status in result.statuses){
             QJStatusFrame *statusFrame = [[QJStatusFrame alloc]init];
             statusFrame.status = status;
             [statusFrameArray addObject:statusFrame];
@@ -126,37 +135,19 @@
 
 - (void)loadMoreData
 {
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
     QJAccount *account = unArchiveAccount();
-    params[@"access_token"] = account.access_token;
-    params[@"count"] = @10;
+    QJHomeStatusParam *param = [[QJHomeStatusParam alloc]init];
+    param.access_token = account.access_token;
+    param.count = @5;
     if(self.statusFrames.count){
         QJStatusFrame *statusFrame = [self.statusFrames lastObject];
-        long long lastId = [statusFrame.status.idstr longLongValue] - 1;
-        params[@"max_id"] = @(lastId);
+        param.max_id = @([statusFrame.status.idstr longLongValue] - 1);
     }
-    
-    [QJStatusTool homeStatusWithParams:params success:^(id response) {
+
+    [QJStatusTool homeStatusWithParam:param success:^(QJHomeStatusesResult *result) {
         NSMutableArray *statusFrameArray = [NSMutableArray array];
-        NSArray *statusesArray = [QJStatus objectArrayWithKeyValuesArray:response[@"statuses"]];
-        for(QJStatus *status in statusesArray){
-            QJStatusFrame *statusFrame = [[QJStatusFrame alloc]init];
-            statusFrame.status = status;
-            [statusFrameArray addObject:statusFrame];
-        }
-        
-        [self.statusFrames addObjectsFromArray:statusFrameArray];
-        
-        [self.tableView reloadData];
-        [self.refreshFooterView endRefreshing];
-    } failure:^(NSError *error) {
-        [self.refreshFooterView endRefreshing];
-    }];
-    
-    [QJHttpTool getWithURL:QJAPPGet_Status_Url params:params success:^(id response) {
-        NSMutableArray *statusFrameArray = [NSMutableArray array];
-        NSArray *statusesArray = [QJStatus objectArrayWithKeyValuesArray:response[@"statuses"]];
-        for(QJStatus *status in statusesArray){
+        //[QJStatus objectArrayWithKeyValuesArray:response[@"statuses"]];
+        for(QJStatus *status in result.statuses){
             QJStatusFrame *statusFrame = [[QJStatusFrame alloc]init];
             statusFrame.status = status;
             [statusFrameArray addObject:statusFrame];

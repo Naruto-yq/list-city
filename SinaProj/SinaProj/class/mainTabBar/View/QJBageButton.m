@@ -42,7 +42,7 @@
 {
     _badgeValue = [badgeValue copy];
     
-    if (badgeValue) {
+    if (badgeValue && [badgeValue integerValue] != 0) {
         self.hidden = NO;
         // 设置文字
         [self setTitle:badgeValue forState:UIControlStateNormal];
